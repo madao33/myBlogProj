@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.utils import timezone
 import markdown
 from django.utils.html import strip_tags
+
 class Category(models.Model):
     """
     django 要求模型必须继承 models.Model 类。
