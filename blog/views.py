@@ -6,10 +6,11 @@ from django.utils.text import slugify
 from markdown.extensions.toc import TocExtension
 from django.views.generic import ListView, DetailView
 import re
+from pure_pagination.mixins import PaginationMixin
 
 
 
-class IndexView(ListView):
+class IndexView(PaginationMixin, ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
