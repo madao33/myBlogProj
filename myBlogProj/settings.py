@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'blog',
+    'pure_pagination',  # 分页
     'blog.apps.BlogConfig',
     'comments.apps.CommentsConfig',
 ]
