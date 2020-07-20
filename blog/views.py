@@ -13,6 +13,9 @@ def index(request):
     
 def detail(request, pk):
     post = get_object_or_404(Post, pk = pk)
+
+    # 阅读量加１
+    post.increase_views()
     md = markdown.Markdown(
                 extensions=[
                     'markdown.extensions.extra',
