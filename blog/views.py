@@ -14,23 +14,25 @@ class IndexView(PaginationMixin, ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
-    paginate_by = 10
+    paginate_by = 5
 
-class CategoryView(ListView):
+class CategoryView(PaginationMixin, ListView):
     model = Post
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
+    paginate_by = 5
  
     def get_queryset(self):
         cate = get_object_or_404(Category, pk=self.kwargs.get('pk'))
         return super(CategoryView, self).get_queryset().filter(category=cate)
 
-class PostDetailView(DetailView):
+class PostDetailView(PaginationMixin, DetailView):
     # 这些属性的含义和 ListView 是一样的
     model = Post
     template_name = 'blog/detail.html'
     context_object_name = 'post'
- 
+    paginate_by = 5
+
     def get(self, request, *args, **kwargs):
         # 覆写 get 方法的目的是因为每当文章被访问一次，就得将文章阅读量 +1
         # get 方法返回的是一个 HttpResponse 实例
@@ -61,14 +63,24 @@ class PostDetailView(DetailView):
  
         return post
 
-def archive(request, year, month):
-    post_list = Post.objects.filter(created_time__year=year,
-                                    created_time__month=month
-                                    ).order_by('-created_time')
-    return render(request, 'blog/index.html', context={'post_list': post_list})
+class ArchiveView(PaginationMixin, ListView):
+    model = Post
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+    paginate_by = 5
 
-def tag(request, pk):
-    # 记得在开始部分导入 Tag 类
-    t = get_object_or_404(Tag, pk=pk)
-    post_list = Post.objects.filter(tags=t).order_by('-created_time')
-    return render(request, 'blog/index.html', context={'post_list': post_list})
+    def get_queryset(self):
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        return super().get_queryset().filter(created_time__year=year,created_time__month=month)
+
+class TagView(PaginationMixin, ListView):
+    model = Post
+    template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+    paginate_by = 5
+ 
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, pk=self.kwargs.get('pk'))
+        return super(TagView, self).get_queryset().filter(tags=tag)
+
