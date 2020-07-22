@@ -84,13 +84,13 @@
                         {{post.body|safe}}
                     </div>
                 </article>
-                <section class="comment-area" id="comment-area">
+                {% comment %} <section class="comment-area" id="comment-area">
                     <hr>
                     <h3>发表评论</h3>
                     {% show_comment_form post %}
                     <div class="comment-list-panel">
                         {% show_comments post %}
-                </section>
+                </section> {% endcomment %}
                 {% endblock main%}
             </main>
             
